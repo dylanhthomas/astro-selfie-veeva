@@ -1,13 +1,13 @@
 {
-	"name": "astro-selfie",
-	"version": "1.0.2",
-	"description": "Astro integration to generate page screenshots to show as Open Graph images",
+	"name": "astro-selfie-veeva",
+	"version": "1.0.0",
+	"description": "Astro integration to generate page screenshots for Veeva CRM thumbnails",
 	"license": "ISC",
-	"repository": "vadimdemedes/astro-selfie",
+	"repository": "dylanhthomas/astro-selfie-veeva",
 	"author": {
-		"name": "Vadim Demedes",
-		"email": "vadimdemedes@hey.com",
-		"url": "https://github.com/vadimdemedes"
+		"name": "Dylan Thomas",
+		"email": "dylan.thomas@gmail.com",
+		"url": "https://github.com/dylanhthomas"
 	},
 	"type": "module",
 	"exports": {

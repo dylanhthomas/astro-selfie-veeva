@@ -12,7 +12,7 @@ export default function selfie(): AstroIntegration {
 	let publicDir: URL;
 
 	return {
-		name: 'astro-selfie',
+		name: 'astro-selfie-veeva',
 		hooks: {
 			// eslint-disable-next-line @typescript-eslint/naming-convention, object-shorthand
 			'astro:config:done': ({config}) => {
@@ -20,7 +20,7 @@ export default function selfie(): AstroIntegration {
 			},
 			// eslint-disable-next-line @typescript-eslint/naming-convention, object-shorthand
 			'astro:build:done': async ({dir, pages}) => {
-				const screenshotsDir = new URL('og', publicDir);
+				const screenshotsDir = new URL('screenshots', publicDir);
 				await fs.mkdir(fileURLToPath(screenshotsDir), {recursive: true});
 
 				const port = await getPort();
@@ -40,12 +40,12 @@ export default function selfie(): AstroIntegration {
 
 				const context = await browser.newContext({
 					screen: {
-						width: 1200,
-						height: 600,
+						width: 1376,
+						height: 1032,
 					},
 					viewport: {
-						width: 1200,
-						height: 600,
+						width: 1376,
+						height: 1032,
 					},
 				});
 
@@ -53,8 +53,6 @@ export default function selfie(): AstroIntegration {
 					const url = new URL(pathname, baseUrl);
 					const page = await context.newPage();
 					await page.goto(url.href);
-
-					await page.evaluate('document.body.dataset.astroSelfie = true;');
 
 					const screenshot = await page.screenshot({type: 'png'});
 
@@ -76,17 +74,4 @@ export default function selfie(): AstroIntegration {
 
 const stripTrailingSlash = (input: string): string => {
 	return input.replace(/\/$/, '');
-};
-
-const selfiePath = (astro: AstroGlobal): string => {
-	const pathname =
-		astro.url.pathname === '/'
-			? '/index'
-			: stripTrailingSlash(astro.url.pathname);
-
-	return `/og${pathname}.png`;
-};
-
-export const selfieUrl = (astro: AstroGlobal): URL => {
-	return new URL(selfiePath(astro), astro.site);
 };

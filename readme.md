@@ -1,4 +1,8 @@
-# astro-selfie [![test](https://github.com/vadimdemedes/astro-selfie/actions/workflows/test.yml/badge.svg)](https://github.com/vadimdemedes/astro-selfie/actions/workflows/test.yml)
+# astro-selfie-veeva
+
+Note, this is a copy of astro-selfie by Vadim Demedes" that I modified for my own needs. All credit goes to them.
+
+---
 
 > [Astro](https://astro.build) integration to generate page screenshots to show as Open Graph images.
 
