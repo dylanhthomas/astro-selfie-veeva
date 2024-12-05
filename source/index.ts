@@ -71,7 +71,3 @@ export default function selfie(): AstroIntegration {
 		},
 	};
 }
-
-const stripTrailingSlash = (input: string): string => {
-	return input.replace(/\/$/, '');
-};
