@@ -6,14 +6,16 @@ import getPort from 'get-port';
 import serveHandler from 'serve-handler';
 import { serve } from 'micro';
 import { chromium } from 'playwright';
-export default function selfie() {
-    let root;
+import type {AstroGlobal, AstroIntegration} from 'astro';
+
+export default function selfie(): AstroIntegration {
+	let root: URL;
     return {
         name: 'astro-selfie-veeva',
         hooks: {
             // eslint-disable-next-line @typescript-eslint/naming-convention, object-shorthand
             'astro:config:done': ({ config }) => {
-                root = config.root;
+				root = (config as unknown as {root: URL}).root;
             },
             // eslint-disable-next-line @typescript-eslint/naming-convention, object-shorthand
             'astro:build:done': async ({ dir, pages }) => {
@@ -21,11 +23,15 @@ export default function selfie() {
                 await fs.mkdir(fileURLToPath(screenshotsDir), { recursive: true });
                 const port = await getPort();
                 const baseUrl = new URL(`http://localhost:${port}`);
-                const server = new http.Server(serve(async (request, response) => {
+
+				const server = new http.Server(
+					serve(async (request, response) => {
                     await serveHandler(request, response, {
                         public: fileURLToPath(dir),
                     });
-                }));
+					}),
+				);
+
                 server.listen(port);
                 const browser = await chromium.launch();
                 const context = await browser.newContext({
@@ -44,8 +50,13 @@ export default function selfie() {
                     await page.goto(url.href);
                     // Wait for 3 seconds
                     await page.waitForTimeout(3000);
+
                     const screenshot = await page.screenshot({ type: 'png' });
-                    const screenshotPath = path.join(fileURLToPath(screenshotsDir), pathname === '' ? 'index.png' : `${pathname}.png`);
+					const screenshotPath = path.join(
+						fileURLToPath(screenshotsDir),
+						pathname === '' ? 'index.png' : `${pathname}.png`,
+					);
+
                     await fs.mkdir(path.dirname(screenshotPath), { recursive: true });
                     await fs.writeFile(screenshotPath, screenshot);
                 }
