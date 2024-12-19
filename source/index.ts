@@ -50,7 +50,7 @@ export default function selfie(): AstroIntegration {
                     await page.goto(url.href);
                     // Wait for 3 seconds
                     await page.waitForTimeout(3000);
-
+					await page.evaluate('document.body.dataset.astroSelfie = true;');
                     const screenshot = await page.screenshot({ type: 'png' });
 					const screenshotPath = path.join(
 						fileURLToPath(screenshotsDir),
