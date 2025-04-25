@@ -39,12 +39,12 @@ export default function selfie(): AstroIntegration {
                 const browser = await chromium.launch();
                 const context = await browser.newContext({
                     screen: {
-                        width: 1376,
-                        height: 1032,
+                        width: 1024,
+                        height: 768,
                     },
                     viewport: {
-                        width: 1376,
-                        height: 1032,
+                        width: 1024,
+                        height: 768,
                     },
                 });
                 for (const { pathname } of pages) {
