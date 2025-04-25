@@ -6,15 +6,15 @@ Note, this is a copy of [astro-selfie](https://github.com/vadimdemedes/astro-sel
 
 ---
 
-## Install
+## Setup
+
+### Install
 
 ```console
 npm install --save-dev astro-selfie
 ```
 
-## Usage
-
-### 1. Set up integration
+### Set up integration
 
 Add this integration to `astro.config.mjs`:
 
@@ -27,15 +27,32 @@ export default defineConfig({
 });
 ```
 
-This integration is meant to be used locally for statically built websites. Do not try to deploy this in a CI environment.
+### Optional: Separate Config
 
-### 4. Generate screenshots
+I find it useful to set up a separate config just for screenshotting so I can run it manually when I need to, rather adding significant time to every build.
 
-Run a build command to take screenshots of all pages and store them in `public/og` directory.
+To do this, copy your main config file to something like: `astro.screenshots.config.mjs`, make the above changes, and then run it with:
 
 ```console
-npx astro build
+astro build --config astro.screenshots.config.mjs
 ```
 
-Screenshots will be saved in `tmp/screenshots`
+You can add it to your `package.json` like this:
 
+```diff
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
++    "veeva-thumbnails": "cross-env VEEVA=true astro dev",
+  }
+```
+
+
+## Usage: Generate screenshots and thumbnails
+
+When you run `astro build`, for each page:
+
+1. Screenshot will generated and saved in `tmp/screenshots`, named `[pagename].png`
+1. Large Veeva thumbnail (1024x768) will be generated and saved at `thumbnails/[pagename]-full.png`
+1. Small Veeva thumbnail (200x150) will be generated and saved at `thumbnails/[pagename]-thumb.png`
