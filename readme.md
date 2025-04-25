@@ -37,4 +37,5 @@ Run a build command to take screenshots of all pages and store them in `public/o
 npx astro build
 ```
 
+Screenshots will be saved in `tmp/screenshots`
 
