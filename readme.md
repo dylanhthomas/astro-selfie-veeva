@@ -31,10 +31,10 @@ export default defineConfig({
 
 I find it useful to set up a separate config just for screenshotting so I can run it manually when I need to, rather adding significant time to every build.
 
-To do this, copy your main config file to something like: `astro.screenshots.config.mjs`, make the above changes, and then run it with:
+To do this, copy your main config file to something like: `astro.thumbnails.config.mjs`, make the above changes, and then run it with:
 
 ```console
-astro build --config astro.screenshots.config.mjs
+astro build --config astro.thumbnails.config.mjs
 ```
 
 You can add it to your `package.json` like this:
@@ -44,7 +44,7 @@ You can add it to your `package.json` like this:
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro check && astro build",
-+    "veeva-thumbnails": "cross-env VEEVA=true astro dev",
++    "veeva-thumbnails": "astro build --config astro.thumbnails.config.mjs",
   }
 ```
 
