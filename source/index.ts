@@ -7,7 +7,10 @@ import serveHandler from 'serve-handler';
 import { serve } from 'micro';
 import { chromium } from 'playwright';
 import type {AstroGlobal, AstroIntegration} from 'astro';
-import { processThumbnails } from './processThumbnails.ts';
+
+// For thumbnails processing
+import fsExtra from 'fs-extra';
+import sharp from "sharp";
 
 let screenshotFolder = './tmp/screenshots/';
 
@@ -66,7 +69,28 @@ export default function selfie(): AstroIntegration {
                 await browser.close();
                 server.close();
 
-                await processThumbnails(screenshotFolder);
+                // Process screenshots into Veeva thumbnails
+
+                // Empty current thumbnail directory
+                fsExtra.emptyDirSync('./thumbnails');
+
+                // Get list of all the files in `screenshotFolder`
+                const getImages = (source : string) =>
+                fsExtra.readdirSync(source)
+
+                const images = getImages(screenshotFolder)
+
+                // Process screenshots into thumbnails
+                images.forEach((image) => {
+
+                sharp(screenshotFolder + image)
+                    .resize({ width: 1024, height: 768 })
+                    .toFile("./thumbnails/" + path.parse(image).name + "-full.png")
+
+                sharp(screenshotFolder + image)
+                    .resize({ width: 200, height: 150 })
+                    .toFile("./thumbnails/" + path.parse(image).name + "-thumb.jpg");
+                })
             },
         },
     };
