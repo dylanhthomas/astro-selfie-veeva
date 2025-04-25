@@ -1,16 +1,10 @@
 # astro-selfie-veeva
 
-Note, this is a copy of astro-selfie by Vadim Demedes" that I modified for my own needs. All credit goes to them.
+[Astro](https://astro.build) integration to generate page screenshots for use as thumbnails in Veeva CLM presentations.
+
+Note, this is a copy of [astro-selfie](https://github.com/vadimdemedes/astro-selfie) by Vadim Demedes" that I modified for my own needs. All credit goes to them.
 
 ---
-
-> [Astro](https://astro.build) integration to generate page screenshots to show as Open Graph images.
-
-I use this extension on [my website](https://vadimdemedes.com) and my link previews on Twitter look [like this](https://twitter.com/vadimdemedes/status/1664261504168755201):
-
-<img src="example.png" width="600">
-
-Inspired by [Simon Willison's](https://simonwillison.net) website.
 
 ## Install
 
@@ -29,44 +23,11 @@ import {defineConfig} from 'astro/config';
 + import selfie from 'astro-selfie';
 
 export default defineConfig({
-+    integrations: [
-+        // Make sure `astro-selfie` only runs locally
-+        !process.env['CI'] && !process.env['VERCEL'] && selfie()
-+    ].filter(Boolean)
++    integrations: [selfie()]
 });
 ```
 
-This integration is meant to be used locally for statically built websites for several reasons:
-
-1. Websites deployed to Vercel don't have access to headless Chrome due to platform limitations.
-2. Open graph images aren't probably useful in continuous integration.
-3. Taking screenshots is not quick.
-
-### 2. Add meta tags
-
-Then, add a `<meta>` tag to each page that points to a screenshot of itself.
-
-```astro
----
-import {selfieUrl} from 'astro-selfie';
-
-const screenshotUrl = selfieUrl(Astro);
----
-
-<meta property="og:image" content={screenshotUrl.href} />
-```
-
-### 3. Customize styles (optional)
-
-Selfie adds a `data-astro-selfie` attribute to `body` when taking a screenshot. You can use that data attribute to change any styles in CSS to make sure page looks good.
-
-For example:
-
-```css
-body[data-astro-selfie] .container {
-	padding: 32px 64px;
-}
-```
+This integration is meant to be used locally for statically built websites. Do not try to deploy this in a CI environment.
 
 ### 4. Generate screenshots
 
@@ -76,20 +37,4 @@ Run a build command to take screenshots of all pages and store them in `public/o
 npx astro build
 ```
 
-Once screenshots are generated, commit them to version control and deploy.
 
-## API
-
-### selfie()
-
-Returns an Astro integration that takes page screenshots.
-
-### selfieUrl(astro): URL
-
-Returns a URL to the screenshot of the current page.
-
-#### astro
-
-Type: `AstroGlobal`
-
-Global `Astro` object.
