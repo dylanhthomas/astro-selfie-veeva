@@ -7,6 +7,9 @@ import serveHandler from 'serve-handler';
 import { serve } from 'micro';
 import { chromium } from 'playwright';
 import type {AstroGlobal, AstroIntegration} from 'astro';
+import { processThumbnails } from './processThumbnails.ts';
+
+let screenshotFolder = './tmp/screenshots/';
 
 export default function selfie(): AstroIntegration {
 	let root: URL;
@@ -19,7 +22,7 @@ export default function selfie(): AstroIntegration {
             },
             // eslint-disable-next-line @typescript-eslint/naming-convention, object-shorthand
             'astro:build:done': async ({ dir, pages }) => {
-                const screenshotsDir = new URL('tmp/screenshots', root);
+                const screenshotsDir = new URL(screenshotFolder, root);
                 await fs.mkdir(fileURLToPath(screenshotsDir), { recursive: true });
                 const port = await getPort();
                 const baseUrl = new URL(`http://localhost:${port}`);
@@ -62,6 +65,8 @@ export default function selfie(): AstroIntegration {
                 }
                 await browser.close();
                 server.close();
+
+                await processThumbnails(screenshotFolder);
             },
         },
     };

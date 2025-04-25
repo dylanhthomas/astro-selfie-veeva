@@ -4,7 +4,9 @@
 		"noUnusedLocals": false, 
 		"moduleResolution": "node16",
 		"module": "node16",
-		"outDir": "dist"
+		"outDir": "dist",
+		"allowImportingTsExtensions": true,
+		"noEmit": true
 	},
 	"include": ["source"]
 }
