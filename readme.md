@@ -27,6 +27,25 @@ export default defineConfig({
 });
 ```
 
+By default, this will set the viewport and screen size for the screenshots to 1024x768.
+
+If you wish to override that, (for instance you are designing designing for a 1366x1024 iPad) you can do that via options like this:
+
+```diff
+import {defineConfig} from 'astro/config';
++ import selfie from 'astro-selfie';
+
+export default defineConfig({
++    integrations: [
++       selfie({
++         screen: { width: 1366, height: 1024 }, // default 1024x768
++         viewport: { width: 1366, height: 1024 }, // default 1024x768
++       })]
+});
+```
+
+
+
 ### Optional: Separate Config
 
 I find it useful to set up a separate config just for screenshotting so I can run it manually when I need to, rather adding significant time to every build.

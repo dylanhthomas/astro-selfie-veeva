@@ -14,8 +14,15 @@ import sharp from "sharp";
 
 let screenshotFolder = './tmp/screenshots/';
 
-export default function selfie(): AstroIntegration {
-	let root: URL;
+type SelfieOptions = {
+    screen?: { width: number; height: number };
+    viewport?: { width: number; height: number };
+};
+
+export default function selfie(options: SelfieOptions = {}): AstroIntegration {
+    const screen = options.screen || { width: 1024, height: 768 };
+    const viewport = options.viewport || { width: 1024, height: 768 };
+    let root: URL;
     return {
         name: 'astro-selfie-veeva',
         hooks: {
@@ -41,14 +48,8 @@ export default function selfie(): AstroIntegration {
                 server.listen(port);
                 const browser = await chromium.launch();
                 const context = await browser.newContext({
-                    screen: {
-                        width: 1024,
-                        height: 768,
-                    },
-                    viewport: {
-                        width: 1024,
-                        height: 768,
-                    },
+                    screen,
+                    viewport,
                 });
                 for (const { pathname } of pages) {
                     const url = new URL(pathname, baseUrl);
