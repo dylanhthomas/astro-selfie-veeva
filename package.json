@@ -1,6 +1,6 @@
 {
 	"name": "astro-selfie-veeva",
-	"version": "1.2.3",
+	"version": "1.2.2",
 	"description": "Astro integration to generate page screenshots and process them into thumbnails for Veeva CRM presentations.",
 	"license": "ISC",
 	"repository": "dylanhthomas/astro-selfie-veeva",
