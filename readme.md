@@ -11,7 +11,7 @@ Note, this is a copy of [astro-selfie](https://github.com/vadimdemedes/astro-sel
 ### Install
 
 ```console
-npm install --save-dev astro-selfie
+npm install --save-dev astro-selfie-veeva
 ```
 
 ### Set up integration
@@ -20,7 +20,7 @@ Add this integration to `astro.config.mjs`:
 
 ```diff
 import {defineConfig} from 'astro/config';
-+ import selfie from 'astro-selfie';
++ import selfie from 'astro-selfie-veeva';
 
 export default defineConfig({
 +    integrations: [selfie()]
@@ -33,7 +33,7 @@ If you wish to override that, (for instance you are designing designing for a 13
 
 ```diff
 import {defineConfig} from 'astro/config';
-+ import selfie from 'astro-selfie';
++ import selfie from 'astro-selfie-veeva';
 
 export default defineConfig({
 +    integrations: [
