@@ -17,6 +17,9 @@
 	"engines": {
 		"node": ">=14.16"
 	},
+	"publishConfig": {
+  		"@dylanhthomas:registry": "https://npm.pkg.github.com"
+	},
 	"scripts": {
 		"build": "tsc",
 		"dev": "tsc --watch",
