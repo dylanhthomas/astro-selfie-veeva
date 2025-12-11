@@ -7,12 +7,11 @@ import serveHandler from 'serve-handler';
 import {serve} from 'micro';
 import {chromium} from 'playwright';
 import type {AstroGlobal, AstroIntegration} from 'astro';
-
 // For thumbnails processing
 import fsExtra from 'fs-extra';
 import sharp from 'sharp';
 
-let screenshotFolder = './tmp/screenshots/';
+const screenshotFolder = './tmp/screenshots/';
 
 type SelfieOptions = {
 	screen?: {width: number; height: number};
@@ -20,8 +19,8 @@ type SelfieOptions = {
 };
 
 export default function selfie(options: SelfieOptions = {}): AstroIntegration {
-	const screen = options.screen || {width: 1024, height: 768};
-	const viewport = options.viewport || {width: 1024, height: 768};
+	const screen = options.screen ?? {width: 1024, height: 768};
+	const viewport = options.viewport ?? {width: 1024, height: 768};
 	let root: URL;
 	return {
 		name: 'astro-selfie-veeva',
@@ -67,6 +66,7 @@ export default function selfie(options: SelfieOptions = {}): AstroIntegration {
 					await fs.mkdir(path.dirname(screenshotPath), {recursive: true});
 					await fs.writeFile(screenshotPath, screenshot);
 				}
+
 				await browser.close();
 				server.close();
 
@@ -81,15 +81,15 @@ export default function selfie(options: SelfieOptions = {}): AstroIntegration {
 				const images = getImages(screenshotFolder);
 
 				// Process screenshots into thumbnails
-				images.forEach(image => {
-					sharp(screenshotFolder + image)
+				for (const image of images) {
+					await sharp(screenshotFolder + image)
 						.resize({width: 1024, height: 768})
 						.toFile('./thumbnails/' + path.parse(image).name + '-full.png');
 
-					sharp(screenshotFolder + image)
+					await sharp(screenshotFolder + image)
 						.resize({width: 200, height: 150})
 						.toFile('./thumbnails/' + path.parse(image).name + '-thumb.jpg');
-				});
+				}
 			},
 		},
 	};
